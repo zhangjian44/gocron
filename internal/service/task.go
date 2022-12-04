@@ -229,7 +229,7 @@ func (h *HTTPHandler) Run(taskModel models.Task, taskUniqueId int64) (result str
 		if len(urlFields) >= 2 {
 			params = urlFields[1]
 		}
-		resp = httpclient.PostParams(taskModel.Command, params, taskModel.Timeout)
+		resp = httpclient.PostJson(taskModel.Command, params, taskModel.Timeout)
 	}
 	// 返回状态码非200，均为失败
 	if resp.StatusCode != http.StatusOK {
@@ -456,7 +456,7 @@ func SendNotification(taskModel models.Task, taskResult TaskResult) {
 		"output":           taskResult.Result,
 		"status":           statusName,
 		"task_id":          taskModel.Id,
-		"remark":  			taskModel.Remark,
+		"remark":           taskModel.Remark,
 	}
 	notify.Push(msg)
 }
